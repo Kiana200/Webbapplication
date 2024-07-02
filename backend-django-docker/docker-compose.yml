@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  web:
+    environment:
+      - DB_HOST=db
+    build: .
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+  db:
+    ports:
+      - '5432:5432' # makes this accessible from the development environment.
+    image: postgres:13
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
